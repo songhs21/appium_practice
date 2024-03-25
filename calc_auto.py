@@ -3,6 +3,10 @@ from time import sleep
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 
+def touchAction(act):
+	driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=act)
+	sleep(0.1)
+
 class SampleTest(unittest.TestCase):
     def setUp(self) :
             self.driver = webdriver.Remote(
@@ -16,20 +20,10 @@ class SampleTest(unittest.TestCase):
             )
 
     def test_sum(self):
-        num1 = 9
-        num2 = 9
-        driver = self.driver
-        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=num1).click()
-        sleep(0.1)
-        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="더하기").click()
-        sleep(0.1)
-        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=num2).click()
-        sleep(0.1)
-        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="계산").click()
-        sleep(0.1)
-        fom = int(driver.find_element(by=MobileBy.ID, value=("com.sec.android.app.popupcalculator:id/calc_edt_formula")).text[:-6])
-        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="초기화").click()
-        sleep(0.1)
+    	touchAction("9")
+    	touchAction("더하기")
+    	touchAction("9")
+    	touchAction("계산")
         if fom != num1+num2:
             rst = False
             if rst == False:
