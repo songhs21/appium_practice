@@ -1,42 +1,47 @@
 import unittest
 from time import sleep
 from appium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.common.mobileby import MobileBy
 
 class SampleTest(unittest.TestCase):
-
     def setUp(self) :
-        self.driver = webdriver.Remote(
-            command_executor= "http://127.0.0.1:4723/wd/hub",
-            desired_capabilities={
-                "deviceName": "MAAIKN003089AB9",
-                "platformName": "Android"
-            }
-        )
+            self.driver = webdriver.Remote(
+                command_executor= "http://127.0.0.1:4723/wd/hub",
+                desired_capabilities={
+                    "deviceName": "R3CW70RDK9F",
+                    "platformName": "Android",
+                    "appium:appPackage" : "com.sec.android.app.popupcalculator",
+                    "appium:appActivity" : "com.sec.android.app.popupcalculator.Calculator"
+                }
+            )
 
-    # 테스트 할 app 실행
-    def test_method(self):
-        element = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value='File Manager')
-        element.click()
-        sleep(3)
-         
-
-    # 테스트 케이스
-    def test_case(self):
+    def test_sum(self):
+        num1 = 9
+        num2 = 9
         driver = self.driver
-        driver.find_element(By.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/androidx.drawerlayout.widget.DrawerLayout/android.view.ViewGroup/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.TableLayout/android.widget.TableRow[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.widget.LinearLayout").click()
-        sleep(1)
-        element = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="Navigate up")
-        element.click()
-        sleep(1)
-        driver.find_element(By.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/androidx.drawerlayout.widget.DrawerLayout/android.widget.FrameLayout/androidx.recyclerview.widget.RecyclerView/androidx.appcompat.widget.LinearLayoutCompat[1]/android.widget.CheckedTextView").click()
+        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=num1).click()
+        sleep(0.1)
+        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="더하기").click()
+        sleep(0.1)
+        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=num2).click()
+        sleep(0.1)
+        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="계산").click()
+        sleep(0.1)
+        fom = int(driver.find_element(by=MobileBy.ID, value=("com.sec.android.app.popupcalculator:id/calc_edt_formula")).text[:-6])
+        driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="초기화").click()
+        sleep(0.1)
+        if fom != num1+num2:
+            rst = False
+            if rst == False:
+                print("더하기 테스트 실패")
+
+    
+    def test_min(self):
+        print("곧 작성할 코드")
+    
 
     def tearDown(self):
         self.driver.quit()
-
 
 if __name__ == "__main__" :
     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
