@@ -6,6 +6,8 @@ from appium.webdriver.common.mobileby import MobileBy
 def touchAction(act):
 	driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=act)
 	sleep(0.1)
+	if act == "계산"
+        	driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="초기화").click()
 
 class SampleTest(unittest.TestCase):
     def setUp(self) :
