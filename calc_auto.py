@@ -3,13 +3,15 @@ from time import sleep
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 
-def touchAction(act):
-	driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=act)
-	sleep(0.1)
-	if act == "계산"
-        	driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="초기화").click()
-
 class SampleTest(unittest.TestCase):
+
+    # 터치 입력 함수
+    def tact(self, act):
+        self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=act).click()
+        sleep(0.1)
+        if act == "계산":
+            self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="초기화").click()
+
     def setUp(self) :
             self.driver = webdriver.Remote(
                 command_executor= "http://127.0.0.1:4723/wd/hub",
@@ -21,23 +23,40 @@ class SampleTest(unittest.TestCase):
                 }
             )
 
-    def test_sum(self):
-    	touchAction("9")
-    	touchAction("더하기")
-    	touchAction("9")
-    	touchAction("계산")
-        if fom != num1+num2:
-            rst = False
-            if rst == False:
-                print("더하기 테스트 실패")
-
-    
-    def test_min(self):
-        print("곧 작성할 코드")
-    
-
     def tearDown(self):
         self.driver.quit()
+
+    def test_plus(self):
+        self.tact("9")
+        self.tact("더하기")
+        self.tact("7")
+        self.tact("계산")
+
+    def test_minus(self):
+        self.tact("8")
+        self.tact("5")
+        self.tact("빼기")
+        self.tact("4")
+        self.tact("6")
+        self.tact("계산")
+
+    def test_devision(self):
+        self.tact("3")
+        self.tact("0")
+        self.tact("나누기")
+        self.tact("2")
+        self.tact("계산")
+
+    def test_multi(self):
+        self.tact("1")
+        self.tact("소수점")
+        self.tact("1")
+        self.tact("곱하기")
+        self.tact("4")
+        self.tact("계산")
+    
+
+
 
 if __name__ == "__main__" :
     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
