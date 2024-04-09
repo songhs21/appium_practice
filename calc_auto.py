@@ -96,7 +96,41 @@ class SampleTest(unittest.TestCase):
     
     # 단위 계산기 열기
     
-    # 공학용 계산기 열기
+    # 공학용 계산기 함수 버튼 작동 확인
+    def test_sciencalc(self):
+        sleep(1)
+        try:
+            self.tact("공학용 모드")
+        except:
+            self.tact("대체 함수")
+        funcchk = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="제곱근").text
+        if funcchk == "√":
+            funcs = ['제곱근', '사인', '코사인', '탄젠트', '자연 로그', '대수', '역수', '오일러의 수의 거듭제곱', 'x의 제곱', '엑스의 와이제곱', '절대값', 'Pi', '오일러의 수']
+            txtchk = ['√(', 'sin(', 'cos(', 'tan(', 'ln(', 'log(', '1÷', 'e^(', '9^(2)', '9^(', 'abs(', 'π', 'e']
+            fomuvalue = ['제곱근 여는 소괄호 ', '사인 여는 소괄호 ', '코사인 여는 소괄호 ', '탄젠트 여는 소괄호 ', '자연 로그 여는 소괄호 ', '대수 여는 소괄호 ', '1 나누기 ', '오일러의 수  제곱 여는 소괄호 ', '9 제곱 여는 소괄호 2닫는 소괄호 ', '9 제곱 여는 소괄호 ', '절대값 여는 소괄호 ', 'Pi ', '오일러의 수 ']
+            for i in range(0,13):
+                if i == 8 or i == 9:
+                    self.tact("9")
+                self.tact(funcs[i])
+                txt = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
+                if txt == fomuvalue[i]:
+                    print(funcs[i], txtchk[i],"확인 완료")
+                self.tact("초기화")
+        self.tact("대체 함수")
+        funcchk = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="세제곱근").text
+        print(funcchk)
+        if funcchk == "3√":
+            funcs = ['세제곱근', '역 사인', '역 코사인', '역 탄젠트', '쌍곡 사인', '쌍곡 코사인', '쌍곡 탄젠트', '역 쌍곡 사인', '역 쌍곡 코사인', '역 쌍곡 탄젠트', '2의 엑스제곱', '세제곱', '계승']
+            txtchk = ['cbrt(', 'asin(', 'acos(', 'atan(', 'sinh(', 'cosh(', 'tanh(', 'asinh(', 'acosh(', 'atanh(', '2^(', '9^(3)', '9!']
+            fomuvalue = ['세제곱근 여는 소괄호 ', '역 사인  여는 소괄호 ', '역 코사인  여는 소괄호 ', '역 탄젠트  여는 소괄호 ', '사인 h여는 소괄호 ', '코사인 h여는 소괄호 ', '탄젠트 h여는 소괄호 ', '역 사인  h여는 소괄호 ', '역 코사인  h여는 소괄호 ', '역 탄젠트  h여는 소괄호 ', '2 제곱 여는 소괄호 ', '9 제곱 여는 소괄호 3닫는 소괄호 ', '9계승 ']
+            for i in range(0,13):
+                if i == 11 or i == 12:
+                    self.tact("9")
+                self.tact(funcs[i])
+                txt = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
+                if txt == fomuvalue[i]:
+                    print(funcs[i], txtchk[i],"확인 완료")
+                self.tact("초기화")
     
     def test_history_check(self):
         self.tact("9")
