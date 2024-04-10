@@ -1,12 +1,15 @@
+#_-_encoding=utf8_-_
+#__author__="huiseong.song"
+
 import unittest
 import HtmlTestRunner
 from time import sleep
+import HtmlTestRunner.result
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from typing import List
-from selenium.webdriver.remote.webelement import WebElement
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.by import By
+
 # accessibility id or id
 # 입력 창 : com.sec.android.app.popupcalculator:id/calc_edt_formula
 # 계산 결과 : 결과 미리보기 / com.sec.android.app.popupcalculator:id/calc_tv_result
@@ -14,6 +17,9 @@ from selenium.webdriver.remote.webelement import WebElement
 # 공학용 모드 : 공학용 모드 버튼 / com.sec.android.app.popupcalculator:id/calc_handle_btn_rotation
 # 삭제 버튼 : 지우기 버튼 / com.sec.android.app.popupcalculator:id/calc_handle_btn_delete
 # 플마 전환 : 플러스와 마이너스 간 전환 / com.sec.android.app.popupcalculator:id/calc_keypad_btn_plusminus
+
+
+
 class SampleTest(unittest.TestCase):
 
     # 터치 입력 함수
@@ -38,47 +44,55 @@ class SampleTest(unittest.TestCase):
     def tearDownClass(cls):
         cls.driver.quit()
 
-    #더하기
-    # def test_plus(self):
-    #     self.tact("9")
-    #     self.tact("더하기")
-    #     self.tact("7")
-    #     self.tact("계산")
-    # #빼기
-    # def test_minus(self):
-    #     self.tact("8")
-    #     self.tact("5")
-    #     self.tact("빼기")
-    #     self.tact("4")
-    #     self.tact("6")
-    #     self.tact("계산")
-    # #나누기
-    # def test_devision(self):
-    #     self.tact("3")
-    #     self.tact("0")
-    #     self.tact("나누기")
-    #     self.tact("2")
-    #     self.tact("계산")
-    # #곱하기
-    # def test_multi(self):
-    #     self.tact("1")
-    #     self.tact("소수점")
-    #     self.tact("1")
-    #     self.tact("곱하기")
-    #     self.tact("4")
-    #     self.tact("계산")
+    # 더하기
+    def test_plus(self):
+        self.tact("9")
+        self.tact("더하기")
+        self.tact("7")
+        self.tact("계산")
+
+    #빼기
+    def test_minus(self):
+        self.tact("8")
+        self.tact("5")
+        self.tact("빼기")
+        self.tact("4")
+        self.tact("6")
+        self.tact("계산")
+
+    #나누기
+    def test_devision(self):
+        self.tact("3")
+        self.tact("0")
+        self.tact("나누기")
+        self.tact("2")
+        self.tact("계산")
+
+    #곱하기
+    def test_multi(self):
+        self.tact("1")
+        self.tact("소수점")
+        self.tact("1")
+        self.tact("곱하기")
+        self.tact("4")
+        self.tact("계산")
+
     # 15자리 초과 체크
-    # def test_numover(self):
-    #     for i in range(1,17):
-    #         if i>=10:
-    #             i= i-10
-    #         self.tact(str(i))
-    #     chk = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
-    #     self.tact("초기화")
-    #     if chk == "15자리까지 입력할 수 있어요.":
-    #         print("스낵바 텍스트: '"+ chk + "' digi check ok")
-    #     else:
-    #         print("digi check fail")
+    def test_numover(self):
+        for i in range(1,17):
+            if i>=10:
+                i= i-10
+            self.tact(str(i))
+        chk = None
+        # 화면 녹화 등으로 텍스트 필드 값 취득 실패에 대비한 반복문
+        while chk==None:
+            self.tact("6")
+            chk = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+        self.tact("초기화")
+        if chk == "15자리까지 입력할 수 있어요.":
+            print("sackbar: '"+ chk + "' digi check ok")
+        else:
+            print("digi check fail")
     
     # 사용되지 않는 기호 붙여넣기 시 스낵바 체크
             
@@ -91,7 +105,7 @@ class SampleTest(unittest.TestCase):
     # 연산 기호 40개 초과 체크
     
     # rad 모드 체크
-            
+    
     # 빈 필드에서 사칙연산, 제곱 연산 기호 입력 부락 체크
     
     # 단위 계산기 열기
@@ -114,7 +128,9 @@ class SampleTest(unittest.TestCase):
                 self.tact(funcs[i])
                 txt = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
                 if txt == fomuvalue[i]:
-                    print(funcs[i], txtchk[i],"확인 완료")
+                    print(funcs[i], txtchk[i],"Checked <br>")
+                else:
+                    self.fail()
                 self.tact("초기화")
         self.tact("대체 함수")
         funcchk = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="세제곱근").text
@@ -129,25 +145,13 @@ class SampleTest(unittest.TestCase):
                 self.tact(funcs[i])
                 txt = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
                 if txt == fomuvalue[i]:
-                    print(funcs[i], txtchk[i],"확인 완료")
+                    print(funcs[i], txtchk[i],"Checked <br>")
+                else:
+                    self.fail()
                 self.tact("초기화")
-    
-    def test_history_check(self):
-        self.tact("9")
-        self.tact("더하기")
-        self.tact("7")
-        self.tact("계산")
-        self.tact("계산기록")
-        a = []
-        a = self.driver.find_elements(By.ID("com.sec.android.app.popupcalculator:id/calc_history_list_view"))
-        print(a)
-
-    #커서이동
-    # def test_cursormove(self):
-        # self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(PAGE_UP)
+        self.tact("대체 함수")
 
     # 계산 기록 20개 초과 시 삭체 처리 체크
-    # 계산 기록의 20개 초과시 첫 수식 삭제 확인
     def test_history(self):
         # 기록 20개 쌓기
         for i in range(1,21):
@@ -162,11 +166,10 @@ class SampleTest(unittest.TestCase):
             self.tact("더하기")
             self.tact(str(i))
             self.tact("계산")
-        
         self.tact("계산기록")
-        # 제일 마지막에 계산한 식 체크
+    #     # 제일 마지막에 계산한 식 체크
         lastveri = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="5 더하기 5").text
-        print("마지막 계산한 식:", lastveri)
+        print("last fomula:", lastveri)
         # 처음 계산한 식이 나타날 때 까지 스크롤
         self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
         self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
@@ -191,15 +194,18 @@ class SampleTest(unittest.TestCase):
                 veri = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="1 더하기 1")
             except Exception as e:
                 # 남아있지 않은 경우 예외 처리
-                print("처음에 계산한 1+1은 목록에서 사라짐")
+                print("removed first fomula")
         self.tact("키패드 버튼")
 
+    #커서이동
+    # def test_cursormove(self):
+        # self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(PAGE_UP)
 
-if __name__ == "__main__" :
-    suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
-    unittest.TextTestRunner(verbosity=2).run(suite)
-
-#테스트 리포트 작성용 실행 코드
 # if __name__ == "__main__" :
 #     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
-#     HtmlTestRunner.HTMLTestRunner(output="samCaclTestReport", report_name="samCaclTestReport", report_title="samCaclTestReport", combine_reports=True).run(suite)
+#     unittest.TextTestRunner(verbosity=2).run(suite)
+
+#테스트 리포트 작성용 실행 코드
+if __name__ == "__main__" :
+    suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
+    HtmlTestRunner.HTMLTestRunner(output="samCaclTestReport", report_name="samCaclTestReport", report_title="samCaclTestReport", combine_reports=True).run(suite)
