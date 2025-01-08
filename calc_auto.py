@@ -6,7 +6,7 @@ import HtmlTestRunner
 from time import sleep
 import HtmlTestRunner.result
 from appium import webdriver
-from appium.webdriver.common.mobileby import MobileBy
+from appium.webdriver.common.appiumby import MobileBy
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.by import By
 
