@@ -17,3 +17,10 @@
    - **테스트 프레임워크**: unittest, HtmlTestRunner
    - **모바일 자동화 도구**: Appium
    - **기타**: Android SDK, adb
+  
+  ## 요구사항
+   - Python 3.x
+   - Appium
+   - Android SDK
+   - unittest
+   - HtmlTestRunner

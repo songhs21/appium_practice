@@ -6,7 +6,7 @@ import HtmlTestRunner
 from time import sleep
 import HtmlTestRunner.result
 from appium import webdriver
-from appium.webdriver.common.appiumby import MobileBy
+from appium.webdriver.common.appiumby import AppiumBy
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.by import By
 
@@ -24,10 +24,10 @@ class SampleTest(unittest.TestCase):
 
     # 터치 입력 함수
     def tact(self, act):
-        self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value=act).click()
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=act).click()
         sleep(0.1)
         if act == "계산":
-            self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="초기화").click()
+            self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="초기화").click()
 
     @classmethod
     def setUpClass(cls) :
@@ -87,7 +87,7 @@ class SampleTest(unittest.TestCase):
         # 화면 녹화 등으로 텍스트 필드 값 취득 실패에 대비한 반복문
         while chk==None:
             self.tact("6")
-            chk = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+            chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
         self.tact("초기화")
         if chk == "15자리까지 입력할 수 있어요.":
             print("sackbar: '"+ chk + "' digi check ok")
@@ -117,7 +117,7 @@ class SampleTest(unittest.TestCase):
             self.tact("공학용 모드")
         except:
             self.tact("대체 함수")
-        funcchk = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="제곱근").text
+        funcchk = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="제곱근").text
         if funcchk == "√":
             funcs = ['제곱근', '사인', '코사인', '탄젠트', '자연 로그', '대수', '역수', '오일러의 수의 거듭제곱', 'x의 제곱', '엑스의 와이제곱', '절대값', 'Pi', '오일러의 수']
             txtchk = ['√(', 'sin(', 'cos(', 'tan(', 'ln(', 'log(', '1÷', 'e^(', '9^(2)', '9^(', 'abs(', 'π', 'e']
@@ -126,14 +126,14 @@ class SampleTest(unittest.TestCase):
                 if i == 8 or i == 9:
                     self.tact("9")
                 self.tact(funcs[i])
-                txt = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
+                txt = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
                 if txt == fomuvalue[i]:
                     print(funcs[i], txtchk[i],"Checked <br>")
                 else:
                     self.fail()
                 self.tact("초기화")
         self.tact("대체 함수")
-        funcchk = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="세제곱근").text
+        funcchk = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="세제곱근").text
         print(funcchk)
         if funcchk == "3√":
             funcs = ['세제곱근', '역 사인', '역 코사인', '역 탄젠트', '쌍곡 사인', '쌍곡 코사인', '쌍곡 탄젠트', '역 쌍곡 사인', '역 쌍곡 코사인', '역 쌍곡 탄젠트', '2의 엑스제곱', '세제곱', '계승']
@@ -143,7 +143,7 @@ class SampleTest(unittest.TestCase):
                 if i == 11 or i == 12:
                     self.tact("9")
                 self.tact(funcs[i])
-                txt = self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
+                txt = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").text
                 if txt == fomuvalue[i]:
                     print(funcs[i], txtchk[i],"Checked <br>")
                 else:
@@ -168,13 +168,13 @@ class SampleTest(unittest.TestCase):
             self.tact("계산")
         self.tact("계산기록")
     #     # 제일 마지막에 계산한 식 체크
-        lastveri = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="5 더하기 5").text
+        lastveri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="5 더하기 5").text
         print("last fomula:", lastveri)
         # 처음 계산한 식이 나타날 때 까지 스크롤
         self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
         self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
         # 처음 계산한 식 기록 체크
-        firstveri = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="1 더하기 1").text
+        firstveri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="1 더하기 1").text
         print(firstveri)
         # 처음 계산한 식이 남아있는 경우 21번재 수식 기록
         if "1+1" == firstveri:
@@ -187,11 +187,11 @@ class SampleTest(unittest.TestCase):
             self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
             self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
             # 두번째로 계산한 수식 잔존 여부 체크
-            veri = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="2 더하기 2").text
+            veri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="2 더하기 2").text
             print("두번째로 계산한 식 : ",veri)
             try:
                 #첫번째로 계산한 수식 잔존 여부 체크
-                veri = self.driver.find_element(by=MobileBy.ACCESSIBILITY_ID, value="1 더하기 1")
+                veri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="1 더하기 1")
             except Exception as e:
                 # 남아있지 않은 경우 예외 처리
                 print("removed first fomula")
@@ -199,7 +199,7 @@ class SampleTest(unittest.TestCase):
 
     #커서이동
     # def test_cursormove(self):
-        # self.driver.find_element(by=MobileBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(PAGE_UP)
+        # self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(PAGE_UP)
 
 # if __name__ == "__main__" :
 #     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
