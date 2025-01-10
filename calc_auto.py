@@ -1,5 +1,6 @@
 #_-_encoding=utf8_-_
 #__author__="huiseong.song"
+# appium-python-client version 2.3.0
 
 import unittest
 import HtmlTestRunner
@@ -7,6 +8,7 @@ from time import sleep
 import HtmlTestRunner.result
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from appium.webdriver.webdriver import AppiumOptions
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.by import By
 
@@ -31,15 +33,13 @@ class SampleTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) :
-            cls.driver = webdriver.Remote(
-                command_executor= "http://127.0.0.1:4723/wd/hub",
-                desired_capabilities={
-                    "deviceName": "R3CW70RDK9F",
-                    "platformName": "Android",
-                    "appium:appPackage" : "com.sec.android.app.popupcalculator",
-                    "appium:appActivity" : "com.sec.android.app.popupcalculator.Calculator"
-                }
-            )
+            desired_caps = {}
+            desired_caps["deviceName"] = "R3CW70RDK9F"
+            desired_caps["platformName"] = "Android"
+            desired_caps["appium:appPackage"] = "com.sec.android.app.popupcalculator"
+            desired_caps["appium:appActivity"] = "com.sec.android.app.popupcalculator.Calculator"
+            cls.driver = webdriver.Remote("http://localhost:4723/wd/hub",
+                                          options=AppiumOptions().load_capabilities(desired_caps))
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
@@ -201,11 +201,11 @@ class SampleTest(unittest.TestCase):
     # def test_cursormove(self):
         # self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(PAGE_UP)
 
-# if __name__ == "__main__" :
-#     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
-#     unittest.TextTestRunner(verbosity=2).run(suite)
-
-#테스트 리포트 작성용 실행 코드
 if __name__ == "__main__" :
     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
-    HtmlTestRunner.HTMLTestRunner(output="samCaclTestReport", report_name="samCaclTestReport", report_title="samCaclTestReport", combine_reports=True).run(suite)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+#테스트 리포트 작성용 실행 코드
+# if __name__ == "__main__" :
+#     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
+#     HtmlTestRunner.HTMLTestRunner(output="samCaclTestReport", report_name="samCaclTestReport", report_title="samCaclTestReport", combine_reports=True).run(suite)
