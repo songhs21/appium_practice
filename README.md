@@ -21,7 +21,7 @@
 
   ## 설치 방법
     1. Python 설치
-      Python을 설치하지 않았다면 [여기]: (https://www.python.org/downloads/)에서 설치할 수 있습니다.
+      Python을 설치하지 않았다면 [여기](https://www.python.org/downloads/) 에서 설치할 수 있습니다.
 
     2. 패키지지 설치
       터미널에서 다음 명령어를 실행하여 appium python 클라이언트 패키지를 설치합니다:
@@ -29,7 +29,7 @@
 
 
     3. Appium 서버 설치 및 실행 
-      - Appium gui server를 설치하지 않았다면 [여기]: (https://github.com/appium/appium-desktop/releases) 에서 설치합니다.
+      - Appium gui server를 설치하지 않았다면 [여기](https://github.com/appium/appium-desktop/releases) 에서 설치합니다.
       - Appium 서버를 실행합니다.
       appium
 
