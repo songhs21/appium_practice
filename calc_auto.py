@@ -2,13 +2,16 @@
 #__author__="huiseong.song"
 # appium-python-client version 2.3.0
 
+import logging
 import unittest
+from itertools import cycle
 import HtmlTestRunner
 from time import sleep
 import HtmlTestRunner.result
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.webdriver import AppiumOptions
+from selenium.common.exceptions import NoSuchElementException
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.by import By
 
@@ -83,7 +86,7 @@ class SampleTest(unittest.TestCase):
             self.tact(str(i))
         chk = None
         # 화면 녹화 등으로 텍스트 필드 값 취득 실패에 대비한 반복문
-        while chk==None:
+        while chk is None:
             self.tact("6")
             chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
         self.tact("초기화")
@@ -94,18 +97,22 @@ class SampleTest(unittest.TestCase):
 
     # 소수점 10자리 초과 체크
     def test_dicimalDigit(self):
-        for i in range(0, 13):
-            if i == 1:
-                self.tact("소수점")
-                pass
-            elif i >= 10:
-                i -= 10
-            self.tact(str(i))
-        chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+        chk = None
+        self.tact("소수점")
+        for num in cycle(range(10)):
+            self.tact(str(num))
+            try:
+                chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+                if chk:
+                    break
+            except NoSuchElementException as e:
+                logging.debug(f"No element found: {e}")
+            except Exception as e:
+                logging.warning(f"Exception occurred: {e}")
         if chk == "소수점 이하 10자리까지 입력할 수 있어요.":
-            print("소수점 자릿수 확인 ok")
+            logging.info("소수점 자릿수 확인 ok")
         else:
-            print("소수점 자릿수 확인 fail")
+            logging.error(f"소수점 자릿수 확인 fail: Received message - {chk}")
 
     # 계산 기록 20개 초과 시 삭체 처리 체크
     def test_history(self):
@@ -163,8 +170,10 @@ class SampleTest(unittest.TestCase):
                 if chk == "연산기호는 40개까지 입력할 수 있어요.":
                     print("chk=" + chk)
                     break
-            except:
-                pass
+            except NoSuchElementException as e:
+                logging.debug(f"No element found: {e}")
+            except Exception as e:
+                logging.warning(f"Exception occurred: {e}")
     
     # 공학용 계산기 함수 버튼 작동 확인
     def test_sciencalc(self):
@@ -213,9 +222,9 @@ class SampleTest(unittest.TestCase):
          sleep(0.2)
          chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
          if chk == "완성되지 않은 수식입니다.":
-            print("사용 불가능한 문자 입력 확인")
+            logging.info(f"사용 불가능한 문자 입력 확인")
          else:
-            print("문자열이 입력되지 않음.")
+            logging.error("문자열이 입력되지 않음.")
     
     # rad 모드 체크
     
