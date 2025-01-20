@@ -43,14 +43,12 @@ class SampleTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
-
     # 더하기
     def test_plus(self):
         self.tact("9")
         self.tact("더하기")
         self.tact("7")
         self.tact("계산")
-
     #빼기
     def test_minus(self):
         self.tact("8")
@@ -78,7 +76,7 @@ class SampleTest(unittest.TestCase):
         self.tact("계산")
 
     # 15자리 초과 체크
-    def test_numover(self):
+    def test_digitOver(self):
         for i in range(1,17):
             if i>=10:
                 i= i-10
@@ -90,25 +88,83 @@ class SampleTest(unittest.TestCase):
             chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
         self.tact("초기화")
         if chk == "15자리까지 입력할 수 있어요.":
-            print("sackbar: '"+ chk + "' digi check ok")
+            print("snackbar: '"+ chk + "' digi check ok")
         else:
             print("digi check fail")
-    
-    # 사용되지 않는 기호 붙여넣기 시 스낵바 체크
-            
-    
+
     # 소수점 10자리 초과 체크
-            
-    
-    # 200자 초과 체크
-       
+    def test_dicimalDigit(self):
+        for i in range(0, 13):
+            if i == 1:
+                self.tact("소수점")
+                pass
+            elif i >= 10:
+                i -= 10
+            self.tact(str(i))
+        chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+        if chk == "소수점 이하 10자리까지 입력할 수 있어요.":
+            print("소수점 자릿수 확인 ok")
+        else:
+            print("소수점 자릿수 확인 fail")
+
+    # 계산 기록 20개 초과 시 삭체 처리 체크
+    def test_history(self):
+        # 기록 20개 쌓기
+        for i in range(1,21):
+            if i==10:
+                i= i-8
+            elif 20>i>10:
+                i= i-10
+            elif i==20:
+                i= i-15
+            # print(i)
+            self.tact(str(i))
+            self.tact("더하기")
+            self.tact(str(i))
+            self.tact("계산")
+        self.tact("계산기록")
+        # 제일 마지막에 계산한 식 체크
+        lastveri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="5 더하기 5").text
+        print("last fomula:", lastveri)
+        # 처음 계산한 식이 나타날 때 까지 스크롤
+        self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
+        self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
+        # 처음 계산한 식 기록 체크
+        firstveri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="1 더하기 1").text
+        print(firstveri)
+        # 처음 계산한 식이 남아있는 경우 21번재 수식 기록
+        if "1+1" == firstveri:
+            self.tact("키패드 버튼")
+            self.tact("2")
+            self.tact("더하기")
+            self.tact("1")
+            self.tact("계산")
+            self.tact("계산기록 버튼")
+            self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
+            self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
+            # 두번째로 계산한 수식 잔존 여부 체크
+            veri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="2 더하기 2").text
+            print("두번째로 계산한 식 : ",veri)
+            try:
+                #첫번째로 계산한 수식 잔존 여부 체크
+                veri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="1 더하기 1")
+            except Exception as e:
+                # 남아있지 않은 경우 예외 처리
+                print("removed first fomula")
+        self.tact("키패드 버튼")
+
     # 연산 기호 40개 초과 체크
-    
-    # rad 모드 체크
-    
-    # 빈 필드에서 사칙연산, 제곱 연산 기호 입력 부락 체크
-    
-    # 단위 계산기 열기
+    def test_operationSymbolPcs(self):
+         while True:
+            self.tact("2")
+            self.tact("나누기")
+            try:
+                chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+                if chk == "연산기호는 40개까지 입력할 수 있어요.":
+                    print("chk=" + chk)
+                    break
+            except:
+                pass
     
     # 공학용 계산기 함수 버튼 작동 확인
     def test_sciencalc(self):
@@ -151,55 +207,21 @@ class SampleTest(unittest.TestCase):
                 self.tact("초기화")
         self.tact("대체 함수")
 
-    # 계산 기록 20개 초과 시 삭체 처리 체크
-    def test_history(self):
-        # 기록 20개 쌓기
-        for i in range(1,21):
-            if i==10:
-                i= i-8
-            elif 20>i>10:
-                i= i-10
-            elif i==20:
-                i= i-15
-            # print(i)
-            self.tact(str(i))
-            self.tact("더하기")
-            self.tact(str(i))
-            self.tact("계산")
-        self.tact("계산기록")
-    #     # 제일 마지막에 계산한 식 체크
-        lastveri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="5 더하기 5").text
-        print("last fomula:", lastveri)
-        # 처음 계산한 식이 나타날 때 까지 스크롤
-        self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
-        self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
-        # 처음 계산한 식 기록 체크
-        firstveri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="1 더하기 1").text
-        print(firstveri)
-        # 처음 계산한 식이 남아있는 경우 21번재 수식 기록
-        if "1+1" == firstveri:
-            self.tact("키패드 버튼")
-            self.tact("2")
-            self.tact("더하기")
-            self.tact("1")
-            self.tact("계산")
-            self.tact("계산기록 버튼")
-            self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
-            self.driver.swipe(start_x=280, start_y=1210, end_x=280, end_y=2002)
-            # 두번째로 계산한 수식 잔존 여부 체크
-            veri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="2 더하기 2").text
-            print("두번째로 계산한 식 : ",veri)
-            try:
-                #첫번째로 계산한 수식 잔존 여부 체크
-                veri = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="1 더하기 1")
-            except Exception as e:
-                # 남아있지 않은 경우 예외 처리
-                print("removed first fomula")
-        self.tact("키패드 버튼")
-
-    #커서이동
-    # def test_cursormove(self):
-        # self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(PAGE_UP)
+    # 사용되지 않는 기호 붙여넣기 및 연산기호만 입력했을 경우우 체크
+    def test_unusedText(self):
+         self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys("a")
+         sleep(0.2)
+         chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
+         if chk == "완성되지 않은 수식입니다.":
+            print("사용 불가능한 문자 입력 확인")
+         else:
+            print("문자열이 입력되지 않음.")
+    
+    # rad 모드 체크
+    
+    # 빈 필드에서 사칙연산, 제곱 연산 기호 입력 부락 체크
+    
+    # 단위 계산기 열기
 
 if __name__ == "__main__" :
     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
