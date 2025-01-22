@@ -32,8 +32,21 @@ class SampleTest(unittest.TestCase):
     def tact(self, act):
         self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=act).click()
         sleep(0.1)
-        if act == "계산":
-            self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="초기화").click()
+
+    # 계산식 계산과 결과값 검증
+    def calculate(self, formula):
+        self.tact('계산')
+        value_text = self.driver.find_element(by=AppiumBy.ID, value=self.FORMULA_VALUE).text
+        # formula edt에서 계산 후 텍스트를 가져올 시 문장 끝에 붙는 ' 계산 결과'의 접미사 제거
+        valueA = int(value_text.replace('계산 결과', '').strip())
+        valueB = None
+        if formula[1] == '더하기':
+            valueB = int(formula[0]) + int(formula[2])
+            if valueA == valueB:
+                logging.info(f'PASS: {formula[0]}와 {formula[2]}를 더하면 {valueA}입니다.')
+            else:
+                logging.warning(f'FAIL: {formula[0]}, {formula[1]}, {formula[2]}의 계산 결과는 {valueA}가 아닙니다.')
+
 
     @classmethod
     def setUpClass(cls) :
