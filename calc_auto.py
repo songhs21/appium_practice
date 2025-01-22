@@ -12,6 +12,7 @@ from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.webdriver import AppiumOptions
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.by import By
 
@@ -46,12 +47,14 @@ class SampleTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+
     # 더하기
     def test_plus(self):
-        self.tact("9")
-        self.tact("더하기")
-        self.tact("7")
-        self.tact("계산")
+        formula = ['9', '더하기', '9']
+        for formula_item in formula:
+           self.tact(formula_item)
+        self.calculate(formula)
+
     #빼기
     def test_minus(self):
         self.tact("8")
@@ -91,9 +94,9 @@ class SampleTest(unittest.TestCase):
             chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
         self.tact("초기화")
         if chk == "15자리까지 입력할 수 있어요.":
-            print("snackbar: '"+ chk + "' digi check ok")
+            logging.info("자릿수 체크 Ok")
         else:
-            print("digi check fail")
+            print(f"자릿수 체크 Fail: {chk}")
 
     # 소수점 10자리 초과 체크
     def test_dicimalDigit(self):
@@ -112,7 +115,7 @@ class SampleTest(unittest.TestCase):
         if chk == "소수점 이하 10자리까지 입력할 수 있어요.":
             logging.info("소수점 자릿수 확인 ok")
         else:
-            logging.error(f"소수점 자릿수 확인 fail: Received message - {chk}")
+            logging.error(f"소수점 자릿수 확인 fail: {chk}")
 
     # 계산 기록 20개 초과 시 삭체 처리 체크
     def test_history(self):
@@ -216,21 +219,36 @@ class SampleTest(unittest.TestCase):
                 self.tact("초기화")
         self.tact("대체 함수")
 
-    # 사용되지 않는 기호 붙여넣기 및 연산기호만 입력했을 경우우 체크
-    def test_unusedText(self):
-         self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys("a")
-         sleep(0.2)
-         chk = self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/snackbar_text").text
-         if chk == "완성되지 않은 수식입니다.":
-            logging.info(f"사용 불가능한 문자 입력 확인")
-         else:
-            logging.error("문자열이 입력되지 않음.")
-    
-    # rad 모드 체크
-    
-    # 빈 필드에서 사칙연산, 제곱 연산 기호 입력 부락 체크
-    
-    # 단위 계산기 열기
+    # 사용되지 않는 기호 및 공백에서 연산 기호 입력 실패 확인
+    def test_unUsedText(self):
+        symbol = ["+", "-", "*", "/", "^", "a"]
+        for symbol_item in symbol:
+            success = False  # 성공 여부 추적
+            retry_count = 0  # 재시도 횟수
+            max_retries = 5  # 최대 재시도 횟수
+            while not success and retry_count < max_retries:  # 재시도 횟수를 초과하면 종료
+                try:
+                    # 심볼 입력
+                    self.driver.find_element(by=AppiumBy.ID, value="com.sec.android.app.popupcalculator:id/calc_edt_formula").send_keys(symbol_item)
+                    # snackbar_text가 나타날 때까지 기다림 (최대 5초)
+                    chk = WebDriverWait(self.driver, 5).until(
+                        EC.presence_of_element_located((By.ID, self.SNACKBAR_TEXT_ID))
+                    ).text
+
+                    if chk == "완성되지 않은 수식입니다.":
+                        print(f"공란에서 {symbol_item} 입력 불가 확인")
+                        success = True  # 성공하면 반복 종료
+                except NoSuchElementException as e:
+                # try 동작으로 인해 반복적인 NoSuchElementException 처리
+                    logging.debug(f"다음 심볼을 찾지 찾지 못함.: {symbol_item}")
+                # 예상치 못한 에러 발생 처리
+                except Exception as e:
+                    logging.warning(f"발생한 예외: {e}")
+                
+                retry_count += 1  # 재시도 횟수 증가
+
+                if retry_count == max_retries:
+                    logging.error(f"{symbol_item}은 최대 반복 횟수 {max_retries}회를 초과하여 다음 연산 기호로 넘어감.")
 
 if __name__ == "__main__" :
     suite = unittest.TestLoader().loadTestsFromTestCase(SampleTest)
