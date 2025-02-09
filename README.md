@@ -55,8 +55,6 @@ pytest --html=samCalcTestReport.html --self-contained-html
 ### 2️ **예외 및 제약 조건 테스트**
 | 테스트 이름 | 설명 |
 |------------|--------------------------------|
-| `test_max_digit_entry_limit` | 연산자 없이 15자리 연속 숫자 입력 시 초과 입력이 무시되는지 및 스낵바 알림이 표시되는지 테스트 |
-| `test_history_deletion_when_exceeding_20` | 계산 버튼을 통해 계산한 식이 20개를 초과할 경우 가장 먼저 계산된 식이 삭제되고 마지막에 계산된 식이 추가되는지 검증 |
 | `test_digit_entry_prevention_after_limit` | 15자리 이상 입력이 차단되는지 테스트 |
 | `test_division_by_zero_error` | 0으로 나누는 경우 예외 처리가 되는지 검증 |
 | `test_decimal_place_limit` | 소수점 10자리 제한 검증 |
@@ -75,6 +73,12 @@ pytest --html=samCalcTestReport.html --self-contained-html
 | `test_parentheses_precedence` | 괄호 연산 우선순위 검증 |
 | `test_history_deletion_when_exceeding_20` | 계산 기록이 20개를 초과할 때 오래된 계산식 삭제 여부 검증 |
 | `test_scientific_calculator_functions` | 공학용 계산기의 특수 기능(제곱근, 로그 등) 입력 검증 |
+
+## **연계 테스트 케이스**
+```https://docs.google.com/spreadsheets/d/1gk_v2H9F7rUT-uaLtgJ7d6tsBl2hQgLm8aObLsRxWTU/edit?usp=sharing```
+
+해당 테스트 케이스에 수동테스트/자동화테스트 구분을 주어 하나의 테스트 케이스로 관리하고있습니다.
+
 
 ## ⚠ **주의 사항**
 - **USB 디버깅을 활성화**한 상태에서 **실제 Android 기기**를 사용해야 합니다.
