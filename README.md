@@ -44,12 +44,6 @@ pip install appium-python-client pytest
 ```
 python test_calcauto.py pytest
 ```
-=======
-  ## 설치 방법
-    1. Python 설치
-      Python을 설치하지 않았다면 [여기](https://www.python.org/downloads/) 에서 설치할 수 있습니다.
->>>>>>> 7c43099f1d0f4cbb5610551f94e600a8f60fea24
-
 ## 📋 **테스트 항목**
 ### 1️⃣ **기본 사칙연산 테스트**
 | 테스트 이름 | 설명 |
@@ -77,12 +71,6 @@ python test_calcauto.py pytest
 | `test_operator_switching_behavior` | 연산자를 변경할 때 UI가 정상적으로 업데이트되는지 검증 |
 | `test_incomplete_expression_with_brackets` | 괄호만 있는 연산 입력 시 예외 처리 검증 |
 | `test_unclosed_bracket_error` | 괄호를 닫지 않은 상태에서 계산 시 오류가 발생하는지 확인 |
-=======
-    3. Appium 서버 설치 및 실행 
-      - Appium gui server를 설치하지 않았다면 [여기](https://github.com/appium/appium-desktop/releases) 에서 설치합니다.
-      - Appium 서버를 실행합니다.
-      appium
->>>>>>> 7c43099f1d0f4cbb5610551f94e600a8f60fea24
 
 ## ⚠ **주의 사항**
 - **USB 디버깅을 활성화**한 상태에서 **실제 Android 기기**를 사용해야 합니다.

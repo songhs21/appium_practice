@@ -536,4 +536,4 @@ def pytest_runtest_makereport(self, item, call):
 #     pytest.main()
 
 if __name__ == "__main__":
-    pytest.main(['--html=samCalcTestReport.html', '--self-contained-html'])
+    pytest.main(['--html=samCalcTestReport.html', '--self-contained-html', '--capture=tee-sys'])
