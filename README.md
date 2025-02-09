@@ -41,7 +41,7 @@ pip install appium-python-client pytest
 ## ▶ **테스트 실행 방법**
 터미널에서 다음 명령어를 실행, 또는 IDE에서 실행하면 됩니다. 
 ```
-python test_calcauto.py pytest
+pytest --html=samCalcTestReport.html --self-contained-html
 ```
 ## **테스트 항목**
 ### 1 **기본 사칙연산 테스트**
@@ -56,20 +56,25 @@ python test_calcauto.py pytest
 | 테스트 이름 | 설명 |
 |------------|--------------------------------|
 | `test_max_digit_entry_limit` | 연산자 없이 15자리 연속 숫자 입력 시 초과 입력이 무시되는지 및 스낵바 알림이 표시되는지 테스트 |
-| `test_calculation_history_limit` | 계산 버튼을 통해 계산한 식이 20개를 초과할 경우 가장 먼저 계산된 식이 삭제되고 마지막에 계산된 식이 추가되는지 검증 |
+| `test_history_deletion_when_exceeding_20` | 계산 버튼을 통해 계산한 식이 20개를 초과할 경우 가장 먼저 계산된 식이 삭제되고 마지막에 계산된 식이 추가되는지 검증 |
 | `test_digit_entry_prevention_after_limit` | 15자리 이상 입력이 차단되는지 테스트 |
 | `test_division_by_zero_error` | 0으로 나누는 경우 예외 처리가 되는지 검증 |
 | `test_decimal_place_limit` | 소수점 10자리 제한 검증 |
 | `test_invalid_character_input_error` | 사용되지 않는 기호 입력 시 오류 메시지가 표시되는지 검증 |
 | `test_operator_entry_limit` | 연산자 40개 이상 입력 시 오류가 발생하는지 검증 |
+| `test_zero_not_duplicated` | 0의 중복 입력 방지 검증 |
+| `test_point_not_duplicated` | 소수점 중복 입력 방지 검증 |
+| `test_max_input_length_limit` | 최대 입력 길이(200자) 제한 검증 |
 
-<<<<<<< HEAD
 ### 3️ **고급 기능 테스트**
 | 테스트 이름 | 설명 |
 |------------|--------------------------------|
 | `test_operator_switching_behavior` | 연산자를 변경할 때 UI가 정상적으로 업데이트되는지 검증 |
 | `test_incomplete_expression_with_brackets` | 괄호만 있는 연산 입력 시 예외 처리 검증 |
 | `test_unclosed_bracket_error` | 괄호를 닫지 않은 상태에서 계산 시 오류가 발생하는지 확인 |
+| `test_parentheses_precedence` | 괄호 연산 우선순위 검증 |
+| `test_history_deletion_when_exceeding_20` | 계산 기록이 20개를 초과할 때 오래된 계산식 삭제 여부 검증 |
+| `test_scientific_calculator_functions` | 공학용 계산기의 특수 기능(제곱근, 로그 등) 입력 검증 |
 
 ## ⚠ **주의 사항**
 - **USB 디버깅을 활성화**한 상태에서 **실제 Android 기기**를 사용해야 합니다.
