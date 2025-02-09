@@ -166,7 +166,7 @@ class TestCalculator:
             
     # 사용되지 않는 기호 및 공백에서 연산 기호 입력 실패 확인
     def test_invalid_character_input_error(self):
-        symbol = ['+', '-', '*', '/', '^', 'a']
+        symbol = ['+', '-', '*', '/', '^', 'a', ' ']
         for symbol_item in symbol:
             success = False
             chk = None
@@ -263,7 +263,7 @@ class TestCalculator:
         finally:
             self.tact('초기화')
 
-    # 15자리와 연산자 입력 후 필드의 15자리 사이를 클릭하고 숫자를 입력했을 때 입력 불가 체크
+    # 15자리와 연산자 입력 후 필드의 15자리 사이에 숫자를 입력했을 때 입력 불가 체크
     def test_digit_entry_prevention_after_limit(self, iteration = 15):
         window_size = self.driver.get_window_size()
         width = int(window_size['width']*0.5)
@@ -293,7 +293,7 @@ class TestCalculator:
     def test_operator_switching_behavior(self):
         prev_symbol = None
         self.tact('1')
-        symbol = ['더하기', '빼기', '곱하기', '나누기']
+        symbol = ['더하기', '더하기', '빼기', '빼기', '곱하기', '곱하기', '나누기', '나누기']
 
         for symbol_item in symbol:
             self.tact(symbol_item)
@@ -415,7 +415,7 @@ class TestCalculator:
         assert lastindex_new < lastindex_old, "마지막 계산식의 위치가 줄어들지 않았음"
 
     # 공학용 계산기 함수 버튼 작동 확인
-    def test_sciencalc(self):
+    def test_scientific_calculator_functions(self):
         try:
             self.tact("공학용 모드")
         except Exception as e:
@@ -485,7 +485,7 @@ class TestCalculator:
             self.tact('초기화')
 
     # 200자 초과의 스낵바 확인
-    def test_input_200_chars(self):
+    def test_max_input_length_limit(self):
     # 15자리 숫자와 연산자 입력
         numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5']
         operator = '더하기'
