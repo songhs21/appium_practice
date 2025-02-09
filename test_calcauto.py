@@ -46,7 +46,7 @@ class TestCalculator:
     # 터치 입력 함수
     def tact(self, act):
         self.driver.find_element(self.ACCESSBY, value=act).click()
-        sleep(0.1)
+        # sleep(0.1)
 
     # 계산식 검증
     def calculate(self, formula):
@@ -180,18 +180,19 @@ class TestCalculator:
                     chk = WebDriverWait(self.driver, 5).until(
                 EC.presence_of_element_located((self.IDBY, self.SNACKBAR_TEXT_ID))
             ).text
-                    assert chk == '완성되지 않은 수식입니다.', f"[Failed] 입력되지 말아야할 {symbol_item}이 입력 됐거나, chk 값이 다릅니다. chk: {chk}"
+                    assert chk == '완성되지 않은 수식입니다.', f"[FAILED] 입력되지 말아야할 {symbol_item}이 입력 됐거나, chk 값이 다릅니다. chk: {chk}"
                 except NoSuchElementException as e:
                 # try 동작으로 인해 반복적인 NoSuchElementException 처리
                     pytest.fail(f'[Failed: {symbol_item} 입력 중 스낵바 확인 불가.')
                 # 예상치 못한 에러 발생 처리
                 except Exception as e:
-                    print(f'Failed: 예외 상황이 발생하였습니다. {e}')
+                    logging.warning(f'Failed: 예외 상황이 발생하였습니다. {e}')
                 success = True
+                chk = None
                 retry_count += 1  # 재시도 횟수 증가
 
                 if retry_count >= 5:
-                    print(f'{symbol_item}은 최대 반복 횟수 5회를 초과하여 다음 연산 기호로 넘어감.')
+                    logging.info(f'{symbol_item}은 최대 반복 횟수 5회를 초과하여 다음 연산 기호로 넘어감.')
 
     # 연산 기호 40개 초과 체크
     def test_operator_entry_limit(self):
