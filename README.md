@@ -38,11 +38,17 @@ pip install appium-python-client pytest
 2. 안드로이드 디바이스에서 개발자 옵션을 활성화하고 USB 디버깅을 켭니다.
 3. 디바이스를 PC에 연결합니다.
 
+<<<<<<< HEAD
 ## ▶ **테스트 실행 방법**
 터미널에서 다음 명령어를 실행, 또는 IDE에서 실행하면 됩니다. 
 ```
 python test_calcauto.py pytest
 ```
+=======
+  ## 설치 방법
+    1. Python 설치
+      Python을 설치하지 않았다면 [여기](https://www.python.org/downloads/) 에서 설치할 수 있습니다.
+>>>>>>> 7c43099f1d0f4cbb5610551f94e600a8f60fea24
 
 ## 📋 **테스트 항목**
 ### 1️⃣ **기본 사칙연산 테스트**
@@ -64,12 +70,19 @@ python test_calcauto.py pytest
 | `test_invalid_character_input_error` | 사용되지 않는 기호 입력 시 오류 메시지가 표시되는지 검증 |
 | `test_operator_entry_limit` | 연산자 40개 이상 입력 시 오류가 발생하는지 검증 |
 
+<<<<<<< HEAD
 ### 3️⃣ **고급 기능 테스트**
 | 테스트 이름 | 설명 |
 |------------|--------------------------------|
 | `test_operator_switching_behavior` | 연산자를 변경할 때 UI가 정상적으로 업데이트되는지 검증 |
 | `test_incomplete_expression_with_brackets` | 괄호만 있는 연산 입력 시 예외 처리 검증 |
 | `test_unclosed_bracket_error` | 괄호를 닫지 않은 상태에서 계산 시 오류가 발생하는지 확인 |
+=======
+    3. Appium 서버 설치 및 실행 
+      - Appium gui server를 설치하지 않았다면 [여기](https://github.com/appium/appium-desktop/releases) 에서 설치합니다.
+      - Appium 서버를 실행합니다.
+      appium
+>>>>>>> 7c43099f1d0f4cbb5610551f94e600a8f60fea24
 
 ## ⚠ **주의 사항**
 - **USB 디버깅을 활성화**한 상태에서 **실제 Android 기기**를 사용해야 합니다.
