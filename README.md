@@ -76,7 +76,7 @@ pytest --html=samCalcTestReport.html --self-contained-html
 
 ## **연계 테스트 케이스**
 
-[삼성 게산기 TC 스프레드 시트]([https://www.python.org/downloads/](https://docs.google.com/spreadsheets/d/1gk_v2H9F7rUT-uaLtgJ7d6tsBl2hQgLm8aObLsRxWTU/edit?gid=0#gid=0))
+[삼성 게산기 TC 스프레드 시트](https://docs.google.com/spreadsheets/d/1gk_v2H9F7rUT-uaLtgJ7d6tsBl2hQgLm8aObLsRxWTU/edit?gid=0#gid=0)
 
 
 해당 테스트 케이스에 수동테스트/자동화테스트 구분을 주어 하나의 테스트 케이스로 관리하고있습니다.
